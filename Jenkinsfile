@@ -8,7 +8,7 @@ node {
             bat 'docker container rm dotapp'
             bat 'docker image rm dotapp'
         } catch(err) {
-            bat 'echo Create new Image'
+            bat 'echo Create new Dot Net Image'
         } finally {
             bat 'docker build --tag dotapp .'
         }

@@ -24,6 +24,7 @@ node {
             // Start the server on 5001 port....
             bat 'docker run -d -p 5001:80 --name dotapp dotapp'
         } catch (err) {
+            // Restart the server if it is running....
             bat 'docker container restart dotapp'
         }
     }

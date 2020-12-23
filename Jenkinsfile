@@ -8,6 +8,7 @@ node {
     // Start building the dotnet env into the docker container....
     stage("Build DotNet") {
         try {
+            // Remove the old container if not running....
             bat 'docker container stop dotapp'
             bat 'docker container rm dotapp'
             bat 'docker image rm dotapp'

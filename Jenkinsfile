@@ -1,7 +1,11 @@
 node {
+    
+    // Clone the latest repo from the git....
     stage("Git Clone") {
         git branch: 'main', credentialsId: '2ba18c43-fb6f-402b-98ad-91664d4ceab5', url: 'https://github.com/sanjaysanju618/CDCI---Front-End---DotNet.git'
     }
+
+    // Start building the dotnet env into the docker container....
     stage("Build DotNet") {
         try {
             bat 'docker container stop dotapp'
@@ -13,8 +17,11 @@ node {
             bat 'docker build --tag dotapp .'
         }
     }
+
+    // Start the server or restart the server if running....
     stage("Start Server") {
         try {
+            // Start the server on 5001 port....
             bat 'docker run -d -p 5001:80 --name dotapp dotapp'
         } catch (err) {
             bat 'docker container restart dotapp'

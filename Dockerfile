@@ -1,16 +1,29 @@
+# load dotnet build-env from the hub....
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build-env
+
+# set working dir as /app....
 WORKDIR /app
 
-# Copy csproj and restore as distinct layers
+# Copy csproj and restore as distinct layers....
 COPY *.csproj ./
+
+# restore the dotnet app from the .csproj file....
 RUN dotnet restore
 
-# Copy everything else and build
+# Copy everything else and build....
 COPY . ./
+
+# publish the dotnet app env to out dir....
 RUN dotnet publish -c Release -o out
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:5.0
+
+# set working dir as /app....
 WORKDIR /app
+
+# Copy evrrything from build-env/app/out to working dir....
 COPY --from=build-env /app/out .
+
+# start the server by dotnet myWebApp.dll cmd....
 ENTRYPOINT ["dotnet", "myWebApp.dll"]
